@@ -15,12 +15,6 @@ let playerSelection = "";
 let playerWin = 0;
 let computerWin = 0;
 
-//if(playerSelection === String) {
-//    let x = playerSelection.slice(1).toLowerCase();
-//    let y = playerSelection.slice(0, 1).toUpperCase();
-//    playerSelection = y + x;
-//} else playerSelection;
-
 function playRound() {
     if (playerSelection === computerSelection) {
         return "Match";
@@ -58,3 +52,8 @@ function game() {
 
 let startGame = prompt("Start the Game? Yes or No?");
 startGame === "Yes" ? game() : null;
+
+//if (playerSelection.match(/rock/i) || playerSelection.match(/paper/i) || playerSelection.match(/scissors/i)) {
+//    let x = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1);
+//    playerSelection = x;
+//} else prompt("Only Rock, Paper or Scissors");
