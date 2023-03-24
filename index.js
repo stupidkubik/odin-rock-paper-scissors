@@ -15,10 +15,14 @@ let playerSelection = "";
 let playerWin = 0;
 let computerWin = 0;
 
-function playRound() {
-    if (playerSelection === computerSelection) {
-        return "Match";
-    } else if(playerSelection == "Rock" && computerSelection == "Scissors") {
+function playRound(playerSelection, computerSelection) {
+
+    if (playerSelection.match(/rock/i) || playerSelection.match(/paper/i) || playerSelection.match(/scissors/i)) {
+        let x = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1).toLowerCase();
+        playerSelection = x;
+    } else return "Wrong";
+
+    if(playerSelection == "Rock" && computerSelection == "Scissors") {
         return `You Win! ${playerSelection} beats ${computerSelection}`; 
     } else if(playerSelection == "Paper" && computerSelection == "Scissors") {
         return `You Lose! ${computerSelection} beats ${playerSelection}`;
@@ -30,15 +34,14 @@ function playRound() {
         return `You Lose! ${computerSelection} beats ${playerSelection}`;
     } else if(playerSelection == "Scissors" && computerSelection == "Paper") {
         return `You Win! ${playerSelection} beats ${computerSelection}`;
-    }
+    } else return "Match"; 
 }
 
 function game() {
     for (let index = 0; index < 5; index++) {
-        let result = playRound(playerSelection = prompt("Rock, Paper or Scissors?"), computerSelection = computerPlay());
-        console.log(playRound());
-        console.log(computerSelection);
-        if (result.match("Match")) {
+        let result = playRound(prompt("Rock, Paper or Scissors?"), computerPlay());
+
+        if (result.match("Match") || result.match("Wrong")) {
             index--;
         } else if (result.match("Win")) {
             playerWin++;
@@ -50,10 +53,5 @@ function game() {
     } else window.alert(`${playerWin} : ${computerWin}. You Lose!`) 
 }
 
-let startGame = prompt("Start the Game? Yes or No?");
+let startGame = prompt(`Start the Game? Enter Yes or No`);
 startGame === "Yes" ? game() : null;
-
-//if (playerSelection.match(/rock/i) || playerSelection.match(/paper/i) || playerSelection.match(/scissors/i)) {
-//    let x = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1);
-//    playerSelection = x;
-//} else prompt("Only Rock, Paper or Scissors");
