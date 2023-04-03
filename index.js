@@ -3,8 +3,70 @@ const Popup = document.querySelector('.popup');
 
 PopupClose.addEventListener('click', () => Popup.classList.add('popup_hide'));
 
+const weaponChoice = ['Rock', 'Paper', 'Scissors'];
+let computerSelection;
+let playerSelection;
+let playerWin = 5;
+let computerWin = 5;
+
+function computerPlay() {
+    return weaponChoice[Math.floor(Math.random() * weaponChoice.length)];
+}
+
+// console.log(computerPlay());
+
+function checkWinner(player, computer) {
+    if ((player === weaponChoice[0] && computer === weaponChoice[1]) || 
+    (player === weaponChoice[1] && computer === weaponChoice[2]) ||
+    (player === weaponChoice[2] && computer === weaponChoice[0])) {
+        return `You Lose! ${computer} beats ${player}`;
+    } else if ((player === weaponChoice[1] && computer === weaponChoice[0]) || 
+    (player === weaponChoice[2] && computer === weaponChoice[1]) ||
+    (player === weaponChoice[0] && computer === weaponChoice[2])) {
+        return `You Win! ${player} beats ${computer}`;
+    } else return `Match! ${computer} and ${player} have same power`;
+}
+
+function playRound() {
+    playerSelection = '';
+    computerSelection = computerPlay(); 
+    let result = checkWinner(playerSelection, computerSelection);
+
+    if (result.match('Win')) {
+        computerWin--;
+    }
+    if (result.match('Lose')) {
+        playerWin--;
+    }
+
+    if (computerWin || playerWin === 0) {
+        return gameCount(); 
+    }
+
+    window.alert(`${result}. ${playerWin} : ${computerWin}`);
+}
+
+function gameCount() {
+    if (playerWin > computerWin) {
+        window.alert(`${playerWin} : ${computerWin}. You Win!`)
+    } else window.alert(`${playerWin} : ${computerWin}. You Lose!`);
+}
 
 
+
+//     for (let index = 0; index < 5; index++) {
+//         let result = playRound(prompt("Rock, Paper or Scissors?"), computerPlay());
+
+//         if (result.match("Match") || result.match("Wrong")) {
+//             index--;
+//         } else if (result.match("Win")) {
+//             playerWin++;
+//         } else computerWin++;
+//         window.alert(`${result}. ${playerWin} : ${computerWin}`);
+//     }
+//     if (playerWin > computerWin) {
+//         window.alert(`${playerWin} : ${computerWin}. You Win!`)
+//     } else window.alert(`${playerWin} : ${computerWin}. You Lose!`) 
 
 
 // function computerPlay() {
