@@ -4,18 +4,51 @@ const Popup = document.querySelector('.popup');
 PopupClose.addEventListener('click', () => Popup.classList.add('popup_hide'));
 
 const weaponChoice = ['Rock', 'Paper', 'Scissors'];
+const weaponRock = document.querySelector('.button_type_rock');
+const weaponPaper = document.querySelector('.button_type_paper');
+const weaponScissors = document.querySelector('.button_type_scissors');
+
+weaponRock.addEventListener('click', () => {
+    playerSelection = weaponChoice[0];
+    playRound();
+});
+weaponPaper.addEventListener('click', () => {
+    playerSelection = weaponChoice[1];
+    playRound();
+});
+weaponScissors.addEventListener('click', () => {
+    playerSelection = weaponChoice[2];
+    playRound(); 
+});
+
 let computerSelection;
 let playerSelection;
-let playerWin = 5;
+let playerWin = 5; // Every player has five lives
 let computerWin = 5;
 
 function computerPlay() {
     return weaponChoice[Math.floor(Math.random() * weaponChoice.length)];
 }
 
-// console.log(computerPlay());
+function playRound() { // Start new round of game
+    computerSelection = computerPlay();
+    
+    let result = checkWinner(playerSelection, computerSelection);
+    console.log(result);
+    console.log(computerSelection);
 
-function checkWinner(player, computer) {
+    if (result.match('Win')) {
+        computerWin--;
+        window.alert(`${result}. ${playerWin} : ${computerWin}`); // Computer lose one live
+        checkCount();
+    } else if (result.match('Lose')) {
+        playerWin--;
+        window.alert(`${result}. ${playerWin} : ${computerWin}`); // Player lose one live
+        checkCount();
+    } else return window.alert(result);
+}
+
+function checkWinner(player, computer) { // Check the winner of a round
     if ((player === weaponChoice[0] && computer === weaponChoice[1]) || 
     (player === weaponChoice[1] && computer === weaponChoice[2]) ||
     (player === weaponChoice[2] && computer === weaponChoice[0])) {
@@ -27,102 +60,15 @@ function checkWinner(player, computer) {
     } else return `Match! ${computer} and ${player} have same power`;
 }
 
-function playRound() {
-    playerSelection = '';
-    computerSelection = computerPlay(); 
-    let result = checkWinner(playerSelection, computerSelection);
-
-    if (result.match('Win')) {
-        computerWin--;
-    }
-    if (result.match('Lose')) {
-        playerWin--;
-    }
-
-    if (computerWin || playerWin === 0) {
+function checkCount() {
+    if (computerWin === 0 || playerWin === 0) {
         return gameCount(); 
     }
-
-    window.alert(`${result}. ${playerWin} : ${computerWin}`);
 }
 
-function gameCount() {
+function gameCount() { // Count game result
     if (playerWin > computerWin) {
-        window.alert(`${playerWin} : ${computerWin}. You Win!`)
-    } else window.alert(`${playerWin} : ${computerWin}. You Lose!`);
+        window.alert(`${playerWin} : ${computerWin}. You Win! Computer is defeated!`)
+    } else window.alert(`${playerWin} : ${computerWin}. You Lose! Try one more time:(`);
+    return Popup.classList.remove('popup_hide');
 }
-
-
-
-//     for (let index = 0; index < 5; index++) {
-//         let result = playRound(prompt("Rock, Paper or Scissors?"), computerPlay());
-
-//         if (result.match("Match") || result.match("Wrong")) {
-//             index--;
-//         } else if (result.match("Win")) {
-//             playerWin++;
-//         } else computerWin++;
-//         window.alert(`${result}. ${playerWin} : ${computerWin}`);
-//     }
-//     if (playerWin > computerWin) {
-//         window.alert(`${playerWin} : ${computerWin}. You Win!`)
-//     } else window.alert(`${playerWin} : ${computerWin}. You Lose!`) 
-
-
-// function computerPlay() {
-//     let compMove = Math.floor(Math.random() * 3) + 1;
-//     switch(compMove) {
-//         case 1: return "Rock";
-//         break;
-//         case 2: return "Paper";
-//         break;
-//         case 3: return "Scissors";
-//         break;
-//     }
-// }
-
-// let computerSelection = "";
-// let playerSelection = "";
-// let playerWin = 0;
-// let computerWin = 0;
-
-// function playRound(playerSelection, computerSelection) {
-
-//     if (playerSelection.match(/rock/i) || playerSelection.match(/paper/i) || playerSelection.match(/scissors/i)) {
-//         let x = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1).toLowerCase();
-//         playerSelection = x;
-//     } else return "Wrong";
-
-//     if(playerSelection == "Rock" && computerSelection == "Scissors") {
-//         return `You Win! ${playerSelection} beats ${computerSelection}`; 
-//     } else if(playerSelection == "Paper" && computerSelection == "Scissors") {
-//         return `You Lose! ${computerSelection} beats ${playerSelection}`;
-//     } else if(playerSelection == "Scissors" && computerSelection == "Rock") {
-//         return `You Lose! ${computerSelection} beats ${playerSelection}`;
-//     } else if(playerSelection == "Paper" && computerSelection == "Rock") {
-//         return `You Win! ${playerSelection} beats ${computerSelection}`;
-//     } else if(playerSelection == "Rock" && computerSelection == "Paper") {
-//         return `You Lose! ${computerSelection} beats ${playerSelection}`;
-//     } else if(playerSelection == "Scissors" && computerSelection == "Paper") {
-//         return `You Win! ${playerSelection} beats ${computerSelection}`;
-//     } else return "Match"; 
-// }
-
-// function game() {
-//     for (let index = 0; index < 5; index++) {
-//         let result = playRound(prompt("Rock, Paper or Scissors?"), computerPlay());
-
-//         if (result.match("Match") || result.match("Wrong")) {
-//             index--;
-//         } else if (result.match("Win")) {
-//             playerWin++;
-//         } else computerWin++;
-//         window.alert(`${result}. ${playerWin} : ${computerWin}`);
-//     }
-//     if (playerWin > computerWin) {
-//         window.alert(`${playerWin} : ${computerWin}. You Win!`)
-//     } else window.alert(`${playerWin} : ${computerWin}. You Lose!`) 
-// }
-
-// let startGame = prompt(`Start the Game? Enter Yes or No`);
-// startGame === "Yes" ? game() : null;
